@@ -1,0 +1,35 @@
+.version 8.5 // this will be generated automatically with the compiler
+.target sm_90 // this will be generated automatically with the compiler
+.address_size 64 // this will be generated automatically with the compiler
+
+.entry kernel {
+        .reg .f32 %r1, %r2;
+        .reg .b32 %cmp1;
+
+        mov.f32 %r1, (.f32)10;
+        mov.f32 %r2, (.f32)5;
+
+        setp.lt.fp32 %cmp1, %r1, %r2; //defines a lt less than comparison between r1 and r2 saves onto cmp register
+
+        @%cmp1 bra less_than:
+
+        .reg .b32 %cmp2;
+        selp.gt.fp32 %cmp2, %r1, %r2;
+
+
+        @%cmp2 bra greater_than:
+
+        ret;
+
+        greater_than:
+            ret;
+
+        // here if it is not true, because if it is true, the code jumps to the target_label
+        less_than:
+            ret;
+    }
+
+.func add (.param.fp32 %a, .param.fp32 %b) -> .param.fp32 {};
+
+
+
